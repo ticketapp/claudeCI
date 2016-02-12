@@ -8,9 +8,18 @@ RUN cd master; node_modules/bower/bin/bower install --allow-root --save
 
 RUN cd master; grunt build
 
-RUN cd /usr/local/share && \
-	wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 && \
-	tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2 && \
-	ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs && \
-	ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
-	ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+RUN echo 'scalacOptions ++= Seq("-Xmax-classfile-name","82")' > ~/.sbt/0.13/local.sbt
+
+RUN apt-get install -y sshpass
+
+ADD runBuild.sh /master
+
+RUN cd /master; chmod +x ./runBuild.sh
+
+WORKDIR /master
+
+#CMD exitCode=$(sbt "testOnly TestAddressModel" | sed -e '$!d' | awk '{print $1}'); if [ exitCode == "[error]" ]; then echo "a"; else echo "b"; fi
+
+#CMD sbt test; sshpass -p 9g2Myjdt scp -o StrictHostKeyChecking=no target/universal/claude-0.001.zip root@51.254.122.113:/root/claude.zip
+
+#RUN cd master; sbt test
