@@ -27,3 +27,11 @@ RUN cd /usr/local/share && \
         ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
         ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 
+RUN echo 'scalacOptions ++= Seq("-Xmax-classfile-name","82")' > ~/.sbt/0.13/local.sbt
+
+RUN apt-get install -y sshpass
+
+ADD runBuild.sh /
+
+RUN chmod +x ./runBuild.sh
+
