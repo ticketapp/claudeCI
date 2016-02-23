@@ -6,6 +6,8 @@ cd master; npm install
 
 node_modules/bower/bin/bower install --allow-root --save
 
+node_modules/bower/bin/bower update --allow-root --save
+
 grunt build
 
 sbt_output=$(sbt "test")
